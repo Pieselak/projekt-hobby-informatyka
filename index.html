@@ -1,149 +1,460 @@
 <!DOCTYPE html>
 <html lang="pl">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Fotografia — Portfolio</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fotografia - Moja Pasja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
       @keyframes fadeIn {
         from {
           opacity: 0;
-          transform: translateY(8px);
+          transform: translateY(20px);
         }
         to {
           opacity: 1;
-          transform: none;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+
+      .slide-down {
+        animation: slideDown 0.6s ease-out forwards;
+      }
+
+      .scale-in {
+        animation: scaleIn 0.5s ease-out forwards;
+      }
+
+      .gallery-item {
+        opacity: 0;
+        animation: scaleIn 0.5s ease-out forwards;
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+      }
+
+      .filter-btn {
+        transition: all 0.3s ease;
+      }
+
+      .filter-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .filter-btn.active {
+        background-color: #fbbf24;
+        color: #1f2937;
+      }
+
+      .hero-section {
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+      }
+
+      .text-glow {
+        text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+      }
+
+      .image-modal {
+        backdrop-filter: blur(10px);
+      }
+
+      /* Scroll animation */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Loading animation */
+      .loading {
+        border: 3px solid #374151;
+        border-top: 3px solid #fbbf24;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
         }
       }
     </style>
   </head>
-  <body>
-    <header>
-      <div class="brand">
-        <div class="logo">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="2"
-              y="3"
-              width="20"
-              height="14"
-              rx="2"
-              stroke="url(#g)"
-              stroke-width="1.2"
-            />
-            <circle cx="12" cy="10" r="2.6" fill="url(#g)" />
-            <defs>
-              <linearGradient id="g" x1="0" x2="1">
-                <stop offset="0" stop-color="#ffd400" />
-                <stop offset="1" stop-color="#ffb400" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <div>
-          <h1>Portfolio — Fotografia</h1>
-          <div class="meta" style="color: var(--muted); font-size: 13px">
-            16 lat • Amator • Nikon D3300
+  <body class="bg-gray-900 text-gray-100">
+    <!-- Header -->
+    <header
+      class="fixed w-full top-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-yellow-500/20 slide-down"
+    >
+      <nav class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+          <div class="text-2xl font-bold text-yellow-400 text-glow">
+            📷 Fotografia
+          </div>
+          <div class="space-x-6">
+            <a
+              href="#about"
+              class="text-gray-300 hover:text-yellow-400 transition-colors duration-300"
+              >O mnie</a
+            >
+            <a
+              href="#gallery"
+              class="text-gray-300 hover:text-yellow-400 transition-colors duration-300"
+              >Galeria</a
+            >
+            <a
+              href="#equipment"
+              class="text-gray-300 hover:text-yellow-400 transition-colors duration-300"
+              >Sprzęt</a
+            >
           </div>
         </div>
-      </div>
-      <nav>
-        <button class="btn">O mnie</button>
-        <button class="btn primary">Galeria</button>
       </nav>
     </header>
 
-    <main class="container">
-      <section class="hero">
-        <div class="panel bio">
-          <h2>O mnie</h2>
-          <div class="tag meta">Młody fotograf amator</div>
-          <p id="bioText">
-            Mam 16 lat i zajmuję się fotografią hobbystycznie jako amator.
-            Fotografuję głównie przy użyciu Nikona D3300 z obiektywami Nikkor
-            18-55 AF-C DX oraz Nikkor 55-200 AF-S VR DX. Lubię eksperymentować z
-            kątami i światłem, szczególnie w fotografii krajobrazowej i
-            portretowej.
-          </p>
-          <div class="stats">
-            <div class="stat">
-              <h3>16</h3>
-              <div style="font-size: 12px; color: var(--muted)">lat</div>
-            </div>
-            <div class="stat">
-              <h3>Nikon</h3>
-              <div style="font-size: 12px; color: var(--muted)">D3300</div>
-            </div>
-            <div class="stat">
-              <h3>2 ob.</h3>
-              <div style="font-size: 12px; color: var(--muted)">
-                Nikkor 18-55, 55-200
-              </div>
-            </div>
-          </div>
-          <div class="tags" style="margin-top: 16px">
-            <div class="tag">Krajobraz</div>
-            <div class="tag">Portret</div>
-            <div class="tag">Makro</div>
-            <div class="tag">Miejska</div>
+    <!-- Hero Section -->
+    <section
+      class="hero-section min-h-screen flex items-center justify-center pt-20"
+    >
+      <div class="container mx-auto px-6 text-center">
+        <h1
+          class="text-6xl md:text-8xl font-bold mb-6 fade-in text-yellow-400 text-glow"
+        >
+          Fotografia
+        </h1>
+        <p
+          class="text-xl md:text-2xl text-gray-300 mb-8 fade-in"
+          style="animation-delay: 0.2s"
+        >
+          Uwieczniam chwile, które opowiadają historie
+        </p>
+        <a
+          href="#gallery"
+          class="inline-block bg-yellow-400 text-gray-900 px-8 py-4 rounded-full font-semibold hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300 fade-in"
+          style="animation-delay: 0.4s"
+        >
+          Zobacz galerię
+        </a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-800">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2
+            class="text-4xl md:text-5xl font-bold mb-8 text-center text-yellow-400 animate-on-scroll"
+          >
+            O mnie
+          </h2>
+          <div
+            class="bg-gray-900 rounded-2xl p-8 md:p-12 shadow-2xl border border-yellow-500/20 animate-on-scroll"
+          >
+            <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+              Witaj! Mam 16 lat i jestem uczniem technikum informatycznego w
+              ZSEEIM w Bielsku-Białej. Łączę dwie wielkie pasje – fotografię i
+              programowanie, tworząc harmonijną synergię między sztuką a
+              technologią.
+            </p>
+            <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+              Jako fotograf amator odkrywam świat przez obiektyw, uchwycając
+              piękno w codzienności – od delikatnych detali kwiatów w fotografii
+              makro, przez czarujące portrety kotów, aż po dynamiczne kadry
+              pojazdów. Każde zdjęcie to dla mnie opowieść, którą chcę podzielić
+              się z innymi.
+            </p>
+            <p class="text-lg md:text-xl text-gray-300 leading-relaxed">
+              Fotografia to nie tylko hobby – to sposób na wyrażanie siebie i
+              spojrzenie na świat z unikalnej perspektywy. Zapraszam do
+              odkrywania mojej twórczości!
+            </p>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="panel">
-          <h3>Highlight</h3>
-          <p style="color: var(--muted)">Wybrane zdjęcie i najnowsze prace.</p>
-          <div style="margin-top: 12px">
-            <img
-              src="images/DSC_0417.JPG"
-              alt="highlight"
-              style="
-                width: 100%;
-                border-radius: 10px;
-                height: 240px;
-                object-fit: cover;
-              "
-            />
+    <!-- Equipment Section -->
+    <section id="equipment" class="py-20 bg-gray-900">
+      <div class="container mx-auto px-6">
+        <h2
+          class="text-4xl md:text-5xl font-bold mb-12 text-center text-yellow-400 animate-on-scroll"
+        >
+          Mój sprzęt
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div
+            class="bg-gray-800 rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/50 transition-all duration-300 transform hover:scale-105 animate-on-scroll"
+          >
+            <div class="text-4xl mb-4">📸</div>
+            <h3 class="text-xl font-bold text-yellow-400 mb-2">Aparat</h3>
+            <p class="text-gray-300">Nikon D3300</p>
+          </div>
+          <div
+            class="bg-gray-800 rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/50 transition-all duration-300 transform hover:scale-105 animate-on-scroll"
+            style="animation-delay: 0.1s"
+          >
+            <div class="text-4xl mb-4">🔍</div>
+            <h3 class="text-xl font-bold text-yellow-400 mb-2">Obiektyw #1</h3>
+            <p class="text-gray-300">Nikkor AF-S 18-55mm DX</p>
+          </div>
+          <div
+            class="bg-gray-800 rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/50 transition-all duration-300 transform hover:scale-105 animate-on-scroll"
+            style="animation-delay: 0.2s"
+          >
+            <div class="text-4xl mb-4">🔭</div>
+            <h3 class="text-xl font-bold text-yellow-400 mb-2">Obiektyw #2</h3>
+            <p class="text-gray-300">Nikkor AF-S 55-200mm DX VR</p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="panel">
-        <h3>Galeria</h3>
-        <div id="filters" class="filters" style="margin-top: 12px"></div>
-        <div id="gallery" class="gallery" style="margin-top: 12px"></div>
-      </section>
-    </main>
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-gray-800">
+      <div class="container mx-auto px-6">
+        <h2
+          class="text-4xl md:text-5xl font-bold mb-12 text-center text-yellow-400 animate-on-scroll"
+        >
+          Galeria
+        </h2>
 
-    <div class="lightbox" role="dialog" aria-hidden="true">
-      <button id="closeLb" class="close">✕</button>
-      <div class="inner">
-        <img src="" alt="" />
-        <div class="meta">
-          <h3>Title</h3>
-          <p>Description</p>
-          <div style="display: flex; gap: 8px; margin-top: 12px">
-            <button id="prevLb" class="btn">← Poprzednie</button>
-            <button id="nextLb" class="btn primary">Następne →</button>
-          </div>
+        <!-- Filter Buttons -->
+        <div
+          class="flex flex-wrap justify-center gap-4 mb-12 animate-on-scroll"
+        >
+          <button
+            onclick="filterGallery('wszystkie')"
+            class="filter-btn active px-6 py-3 rounded-full bg-yellow-400 text-gray-900 font-semibold"
+          >
+            Wszystkie
+          </button>
+          <button
+            onclick="filterGallery('makro')"
+            class="filter-btn px-6 py-3 rounded-full bg-gray-700 text-gray-100 font-semibold hover:bg-gray-600"
+          >
+            Makro
+          </button>
+          <button
+            onclick="filterGallery('kotki')"
+            class="filter-btn px-6 py-3 rounded-full bg-gray-700 text-gray-100 font-semibold hover:bg-gray-600"
+          >
+            Kotki
+          </button>
+          <button
+            onclick="filterGallery('pojazdy')"
+            class="filter-btn px-6 py-3 rounded-full bg-gray-700 text-gray-100 font-semibold hover:bg-gray-600"
+          >
+            Pojazdy
+          </button>
         </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="flex justify-center mb-8">
+          <div class="loading"></div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div
+          id="gallery-grid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- Images will be loaded here dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Image Modal -->
+    <div
+      id="imageModal"
+      class="fixed inset-0 bg-black/90 image-modal hidden z-50 flex items-center justify-center p-4"
+      onclick="closeModal()"
+    >
+      <div class="relative max-w-7xl max-h-full">
+        <button
+          onclick="closeModal()"
+          class="absolute -top-12 right-0 text-yellow-400 hover:text-yellow-300 text-4xl font-bold transition-colors"
+        >
+          ×
+        </button>
+        <img
+          id="modalImage"
+          src=""
+          alt=""
+          class="max-w-full max-h-[90vh] rounded-lg shadow-2xl"
+        />
+        <p id="modalTitle" class="text-center text-xl text-yellow-400 mt-4"></p>
       </div>
     </div>
 
-    <footer>
-      <div class="container">
-        © 2025 — Patryk Znamirowski • Wszystkie prawa zastrzeżone.
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8 border-t border-yellow-500/20">
+      <div class="container mx-auto px-6 text-center text-gray-400">
+        <p>&copy; 2025 Fotografia - Moja Pasja. Wszystkie prawa zastrzeżone.</p>
       </div>
     </footer>
-    <script src="script.js"></script>
+
+    <script>
+      let allImages = [];
+      let currentFilter = "wszystkie";
+
+      // Load images from JSON
+      async function loadImages() {
+        try {
+          const response = await fetch("images.json");
+          allImages = await response.json();
+          document.getElementById("loading").style.display = "none";
+          displayImages(allImages);
+        } catch (error) {
+          console.error("Error loading images:", error);
+          document.getElementById("loading").innerHTML =
+            '<p class="text-red-400">Błąd wczytywania zdjęć</p>';
+        }
+      }
+
+      // Display images in gallery
+      function displayImages(images) {
+        const gallery = document.getElementById("gallery-grid");
+        gallery.innerHTML = "";
+
+        images.forEach((image, index) => {
+          const div = document.createElement("div");
+          div.className =
+            "gallery-item cursor-pointer overflow-hidden rounded-xl bg-gray-900 border border-yellow-500/20 hover:border-yellow-500/50";
+          div.style.animationDelay = `${index * 0.05}s`;
+          div.innerHTML = `
+                    <img src="${image.src}" 
+                         alt="${image.title}" 
+                         class="w-full h-64 object-cover"
+                         onclick="openModal('${image.src}', '${image.title}')"
+                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23374151%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%239ca3af%22 font-family=%22sans-serif%22 font-size=%2218%22 text-anchor=%22middle%22 x=%22200%22 y=%22150%22%3EBrak obrazu%3C/text%3E%3C/svg%3E'">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-yellow-400">${image.title}</h3>
+                        <p class="text-sm text-gray-400 capitalize">${image.category}</p>
+                    </div>
+                `;
+          gallery.appendChild(div);
+        });
+      }
+
+      // Filter gallery by category
+      function filterGallery(category) {
+        currentFilter = category;
+
+        // Update button states
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.remove("active", "bg-yellow-400", "text-gray-900");
+          btn.classList.add("bg-gray-700", "text-gray-100");
+        });
+        event.target.classList.add("active", "bg-yellow-400", "text-gray-900");
+        event.target.classList.remove("bg-gray-700", "text-gray-100");
+
+        // Filter and display images
+        const filteredImages =
+          category === "wszystkie"
+            ? allImages
+            : allImages.filter((img) => img.category === category);
+
+        displayImages(filteredImages);
+      }
+
+      // Open image modal
+      function openModal(src, title) {
+        const modal = document.getElementById("imageModal");
+        const modalImage = document.getElementById("modalImage");
+        const modalTitle = document.getElementById("modalTitle");
+
+        modalImage.src = src;
+        modalTitle.textContent = title;
+        modal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      }
+
+      // Close image modal
+      function closeModal() {
+        const modal = document.getElementById("imageModal");
+        modal.classList.add("hidden");
+        document.body.style.overflow = "auto";
+      }
+
+      // Scroll animations
+      function handleScrollAnimation() {
+        const elements = document.querySelectorAll(".animate-on-scroll");
+
+        elements.forEach((element) => {
+          const elementTop = element.getBoundingClientRect().top;
+          const elementBottom = element.getBoundingClientRect().bottom;
+
+          if (elementTop < window.innerHeight - 100 && elementBottom > 0) {
+            element.classList.add("visible");
+          }
+        });
+      }
+
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Initialize
+      window.addEventListener("load", () => {
+        loadImages();
+        handleScrollAnimation();
+      });
+
+      window.addEventListener("scroll", handleScrollAnimation);
+
+      // Close modal with Escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeModal();
+        }
+      });
+    </script>
   </body>
 </html>
